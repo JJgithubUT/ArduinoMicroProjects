@@ -2,7 +2,7 @@
 
 Servo servo;
 int pinServo = 2;
-int delayTime = 4;
+int delayTime = 15;
 
 void setup() {
   servo.attach(pinServo, 500, 2500);
