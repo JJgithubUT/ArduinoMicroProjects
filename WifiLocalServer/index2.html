@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Control de Estado</title>
+    <script type="module" src="./script2.js">
+        /* // Importar Firebase
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.10.0/firebase-app.js";
+        import { getDatabase, ref, get, set } from "https://www.gstatic.com/firebasejs/10.10.0/firebase-database.js";
+
+        // Configuración de Firebase
+        const firebaseConfig = {
+            apiKey: "AIzaSyCRJuyByM4TGdBzFgaMQ7wsZ5OHdUc2Ujo",
+            authDomain: "arduinoclase-a2019.firebaseapp.com",
+            databaseURL: "https://arduinoclase-a2019-default-rtdb.firebaseio.com",
+            projectId: "arduinoclase-a2019",
+            storageBucket: "arduinoclase-a2019.firebasestorage.app",
+            messagingSenderId: "80980411485",
+            appId: "1:80980411485:web:fa6556a4d90f77683d79b4"
+        };
+
+        // Inicializar Firebase
+        const app = initializeApp(firebaseConfig);
+        const db = getDatabase(app);
+        const estadoRef = ref(db, "estado");
+
+        document.addEventListener("DOMContentLoaded", () => {
+            const boton = document.getElementById("cambiarEstado");
+            
+            // Obtener el estado actual
+            get(estadoRef).then((snapshot) => {
+                if (snapshot.exists()) {
+                    boton.textContent = snapshot.val() ? "Apagar" : "Encender";
+                } else {
+                    set(estadoRef, false); // Valor predeterminado
+                    boton.textContent = "Encender";
+                }
+            });
+
+            // Cambiar estado al hacer clic
+            boton.addEventListener("click", () => {
+                get(estadoRef).then((snapshot) => {
+                    const nuevoEstado = !snapshot.val();
+                    set(estadoRef, nuevoEstado);
+                    boton.textContent = nuevoEstado ? "Apagar" : "Encender";
+                });
+            });
+        }); */
+    </script>
+</head>
+<body>
+    <button id="cambiarEstado">Cargando...</button>
+</body>
+</html>

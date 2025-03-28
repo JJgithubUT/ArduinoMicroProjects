@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Botón y Sol/Luna</title>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: black;
+            font-family: Arial, sans-serif;
+        }
+
+        .boton-circular {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100px;
+            height: 100px;
+            border: 4px solid #00FF00;
+            border-radius: 50%;
+            background-color: transparent;
+            cursor: pointer;
+            box-shadow: 0 0 16px #00FF00, 0 0 32px #00FF00, 0 0 48px #00FF00;
+            transition: all 0.3s ease;
+            margin-bottom: 40px;
+            font-size: 24px;
+            color: #00FF00;
+        }
+
+        .boton-circular.activo {
+            border-color: #FF0000;
+            box-shadow: 0 0 16px #FF0000, 0 0 32px #FF0000, 0 0 48px #FF0000;
+            color: #FF0000;
+        }
+
+        .sol-luna {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            background-color: #FFD700;
+            box-shadow: 0 0 20px #FFD700, 0 0 40px #FFD700;
+            transition: background-color 0.5s ease, box-shadow 0.5s ease;
+        }
+
+        .sol-luna.luna {
+            background-color: #87CEEB;
+            box-shadow: 0 0 20px #87CEEB, 0 0 40px #87CEEB;
+        }
+
+        .sol-luna i {
+            font-size: 100px;
+            color: #FFFFFF;
+        }
+    </style>
+</head>
+
+<body>
+    <button class="boton-circular" id="botonEncender">付</button>
+    <div class="sol-luna" id="solLuna">
+        <i class="fas fa-sun"></i>
+    </div>
+
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+    <script type="module" src="./script2.js"></script>
+</body>
+</html>
