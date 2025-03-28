@@ -1,43 +1,59 @@
-#include <WiFi.h>  // Librería para manejar Wi-Fi
-#include <FirebaseESP32.h> // Librería para Firebase
+#include <WiFi.h>
+#include <FirebaseESP32.h>
 
-#define WIFI_SSID "TP-Link_E2B6" // Cambia por el nombre de tu red WiFi
-#define WIFI_PASSWORD "14086298" // Cambia por la contraseña de tu red WiFi
+// 🔹 Configuración WiFi
+#define WIFI_SSID "UTT-Directores P"
+#define WIFI_PASSWORD "D1r3ct0r3$%@"
+
+// 🔹 Configuración de Firebase
 #define FIREBASE_HOST "https://arduinoclase-a2019-default-rtdb.firebaseio.com/"
-#define FIREBASE_AUTH ""  // No se requiere token de autenticación para tu configuración
+#define FIREBASE_AUTH "OxENbSUJHwKza1SG3NUqxhPTDApHHRpJMlKwlp8g" // Usa el Legacy Token si es necesario
 
+// 🔹 Objetos Firebase
 FirebaseData firebaseData;
+FirebaseAuth auth;
 FirebaseConfig config;
 
+const int ledPin = 2; // LED conectado al pin 2
+
 void setup() {
-  Serial.begin(115200);
+    Serial.begin(115200);
+    pinMode(ledPin, OUTPUT);
 
-  // Conectar a Wi-Fi
-  Serial.println("Conectando a Wi-Fi...");
-  WiFi.begin(WIFI_SSID, WIFI_PASSWORD);
-  while (WiFi.status() != WL_CONNECTED) {
-    delay(1000);
-    Serial.println("Intentando conectar...");
-  }
-  Serial.println("Conectado a Wi-Fi!");
+    // Conexión WiFi
+    WiFi.begin(WIFI_SSID, WIFI_PASSWORD);
+    while (WiFi.status() != WL_CONNECTED) {
+        delay(500);
+        Serial.print(".");
+    }
+    Serial.println("\n✅ Conectado a WiFi");
 
-  // Configurar Firebase
-  config.host = FIREBASE_HOST;
-  config.signer.tokens.legacy_token = FIREBASE_AUTH;
+    // Configuración de Firebase
+    config.database_url = FIREBASE_HOST; // Usar 'database_url' en lugar de 'host'
+    config.signer.tokens.legacy_token = FIREBASE_AUTH;
 
-  // Inicializar Firebase
-  Firebase.begin(&config, nullptr); // No se necesita autenticación
-  Serial.println("Conexión a Firebase lista!");
+    Firebase.begin(&config, &auth);
+    Firebase.reconnectWiFi(true);
+
+    Serial.println("✅ Conectado a Firebase");
 }
 
 void loop() {
-  // Ejemplo: Escribir un valor en la base de datos
-  if (Firebase.RTDB.setBool(&firebaseData, "/ruta_de_ejemplo", 123)) {
-    Serial.println("Escritura exitosa en Firebase");
-  } else {
-    Serial.println("Error al escribir en Firebase");
-    Serial.println(firebaseData.errorReason());
-  }
+    Serial.println("Leyendo estado del LED desde Firebase...");
 
-  delay(5000); // Espera para no saturar las peticiones
+    if (Firebase.getBool(firebaseData, "/estado")) {
+        if (firebaseData.dataType() == "boolean") {
+            bool estado = firebaseData.boolData();
+            digitalWrite(ledPin, estado ? HIGH : LOW);
+            Serial.print("Estado del LED: ");
+            Serial.println(estado ? "ENCENDIDO" : "APAGADO");
+        } else {
+            Serial.println("❌ El dato obtenido no es de tipo booleano.");
+        }
+    } else {
+        Serial.print("❌ Error al obtener el estado: ");
+        Serial.println(firebaseData.errorReason());
+    }
+
+    delay(2000);
 }

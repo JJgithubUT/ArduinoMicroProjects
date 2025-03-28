@@ -20,7 +20,7 @@ DHT dht(DHTPIN, DHTTYPE);
 
 // 🔹 Configuración de Firebase
 #define FIREBASE_HOST "https://termostato-3ab33-default-rtdb.firebaseio.com"
-#define FIREBASE_AUTH "TuTokenDeAutenticación"
+#define FIREBASE_AUTH "Dij9DkY9pW49EHfBF6Qvbw3BHM6QO97e1MhZE39b"
 
 // 🔹 Objetos Firebase
 FirebaseData firebaseData;
@@ -84,7 +84,7 @@ void setup() {
     Serial.println("\n✅ Conectado a WiFi");
 
     // Configurar Firebase
-    config.host = FIREBASE_HOST;
+    config.database_url = FIREBASE_HOST;
     config.signer.tokens.legacy_token = FIREBASE_AUTH;
 
     Firebase.begin(&config, &auth);
