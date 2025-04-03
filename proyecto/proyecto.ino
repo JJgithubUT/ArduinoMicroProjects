@@ -6,8 +6,8 @@
 #define DHTTYPE DHT22
 #define DHTPIN 27
 
-#define LED1 33 // Esto es calor
-#define LED2 32 // Esto es frío
+#define LED1 2 // Esto es calor
+#define LED2 4 // Esto es frío
 
 int tiempoEspera = 5000; // Tiempo inicial en milisegundos
 float temp_objetivo = 25.0; // Temperatura objetivo predeterminada
@@ -15,8 +15,8 @@ float temp_objetivo = 25.0; // Temperatura objetivo predeterminada
 DHT dht(DHTPIN, DHTTYPE);
 
 // 🔹 Credenciales WiFi
-#define WIFI_SSID "TP-Link_E2B6"
-#define WIFI_PASSWORD "14086298"
+#define WIFI_SSID "UTT-Directores P"
+#define WIFI_PASSWORD "D1r3ct0r3$%@"
 
 // 🔹 Configuración de Firebase
 #define FIREBASE_HOST "https://termostato-3ab33-default-rtdb.firebaseio.com"
@@ -39,9 +39,9 @@ void detectarTemperatura() {
     Serial.print(temperature);
     Serial.println("°C");
 
-    // Subir temperatura actual a Firebase
+    // Enviar temperatura actual a Firebase
     if (Firebase.setFloat(firebaseData, "/esp32trycsrp133/temp_actual_dis", temperature)) {
-        Serial.println("✅ Temperatura actual subida: " + String(temperature));
+        Serial.println("✅ Temperatura actual enviada: " + String(temperature));
     } else {
         Serial.println("❌ Error al subir temp_actual_dis: " + firebaseData.errorReason());
     }
@@ -56,14 +56,14 @@ void detectarTemperatura() {
     }
 
     // Ajuste de temperatura basado en `temp_objetivo`
-    if (temperature < temp_objetivo) {
-      digitalWrite(LED1, HIGH);  // Calor
-      digitalWrite(LED2, LOW);   // Frío
+    if (temperature < temp_objetivo) { // Si temp actual menor a objetivo, subela
+      digitalWrite(LED1, HIGH);  // Calor encendido
+      digitalWrite(LED2, LOW);   // Frío apagado
       Serial.println("Calefacción encendida (LED1 ON)");
-    } else {
+    } else { // Si temp actual manor a objetivo, bajala
       digitalWrite(LED1, LOW);   // Calor apagado
       digitalWrite(LED2, HIGH);  // Frío encendido
-      Serial.println("Calefacción apagada (LED2 ON)");
+      Serial.println("Frio encendido (LED2 ON)");
     }
 
 }
@@ -72,8 +72,8 @@ void setup() {
     Serial.begin(115200);
     dht.begin();
     
-    pinMode(LED1, OUTPUT);
-    pinMode(LED2, OUTPUT);
+    pinMode(LED1, OUTPUT); // Esto es calor
+    pinMode(LED2, OUTPUT); // Esto es frío
 
     // Conectar a WiFi
     WiFi.begin(WIFI_SSID, WIFI_PASSWORD);
