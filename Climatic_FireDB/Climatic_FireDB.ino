@@ -8,6 +8,8 @@
 
 #define LED1 33 // Esto es calor
 #define LED2 32 // Esto es frío
+#define LEDrojo 2 // Led rojo calor
+#define LEDazul 4 // Led azul frío
 
 int tiempoEspera = 5000; // Tiempo inicial en milisegundos
 float temp_objetivo = 25.0; // Temperatura objetivo predeterminada
@@ -58,11 +60,15 @@ void detectarTemperatura() {
     // Ajuste de temperatura basado en `temp_objetivo`
     if (temperature < temp_objetivo) {
       digitalWrite(LED1, HIGH);  // Calor
+      digitalWrite(LEDrojo, HIGH);  // Calor
       digitalWrite(LED2, LOW);   // Frío
+      digitalWrite(LEDazul, LOW);   // Frío
       Serial.println("Calefacción encendida (LED1 ON)");
     } else {
       digitalWrite(LED1, LOW);   // Calor apagado
+      digitalWrite(LEDrojo, LOW);   // Calor apagado
       digitalWrite(LED2, HIGH);  // Frío encendido
+      digitalWrite(LEDazul, HIGH);  // Frío encendido
       Serial.println("Calefacción apagada (LED2 ON)");
     }
 
@@ -74,6 +80,8 @@ void setup() {
     
     pinMode(LED1, OUTPUT);
     pinMode(LED2, OUTPUT);
+    pinMode(LEDrojo, OUTPUT);
+    pinMode(LEDazul, OUTPUT);
 
     // Conectar a WiFi
     WiFi.begin(WIFI_SSID, WIFI_PASSWORD);
